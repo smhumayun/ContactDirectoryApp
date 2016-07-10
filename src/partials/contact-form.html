@@ -1,0 +1,45 @@
+<div class="col-sm-10 col-sm-offset-1">
+    <div class="form-group" ng-class="{'has-error':contactForm.name.$invalid}">
+        <label for="name" class="col-sm-3 control-label">Name *</label>
+        <div class="col-sm-7">
+            <input type="text" ng-model="contact.name" class="form-control" name="name" id="name" placeholder="Enter Name here" required ng-maxlength="255"/>
+            <p ng-show="contactForm.name.$touched && contactForm.name.$invalid" class="help-block">Missing Name.</p>
+        </div>
+    </div>
+    <div class="form-group" ng-class="{'has-error':contactForm.primaryNumber.$invalid}">
+        <label for="primaryNumber" class="col-sm-3 control-label">Primary Number *</label>
+        <div class="col-sm-7">
+            <input type="text" ng-model="contact.primaryNumber" class="form-control" name="primaryNumber"
+                   id="primaryNumber" placeholder="Enter Primary Number here" required ng-minlength="7" ng-maxlength="255"
+                   ng-pattern="/^(?:(?:\(?(?:00|\+)([1-4]\d\d|[1-9]\d?)\)?)?[\-\.\ \\\/]?)?((?:\(?\d{1,}\)?[\-\.\ \\\/]?){0,})(?:[\-\.\ \\\/]?(?:#|ext\.?|extension|x)[\-\.\ \\\/]?(\d+))?$/"
+            />
+            <p ng-show="contactForm.primaryNumber.$touched && contactForm.primaryNumber.$invalid" class="help-block">Missing or Invalid Number.</p>
+        </div>
+    </div>
+    <div class="form-group" ng-class="{'has-error':contactForm.secondaryNumber.$invalid}">
+        <label for="secondaryNumber" class="col-sm-3 control-label">Secondary Number</label>
+        <div class="col-sm-7">
+            <input type="text" ng-model="contact.secondaryNumber" class="form-control" name="secondaryNumber" id="secondaryNumber"
+                   placeholder="Enter Secondary Number here" ng-maxlength="255"
+                   ng-pattern="/^(?:(?:\(?(?:00|\+)([1-4]\d\d|[1-9]\d?)\)?)?[\-\.\ \\\/]?)?((?:\(?\d{1,}\)?[\-\.\ \\\/]?){0,})(?:[\-\.\ \\\/]?(?:#|ext\.?|extension|x)[\-\.\ \\\/]?(\d+))?$/"
+            />
+            <p ng-show="contactForm.secondaryNumber.$touched && contactForm.secondaryNumber.$invalid" class="help-block">Missing or Invalid Number.</p>
+        </div>
+    </div>
+    <div class="form-group" ng-class="{'has-error':contactForm.emailAddress.$invalid}">
+        <label for="emailAddress" class="col-sm-3 control-label">Email Address *</label>
+        <div class="col-sm-7">
+            <input type="text" ng-model="contact.emailAddress" class="form-control" name="emailAddress" id="emailAddress"
+                   placeholder="Enter Email Address here" required ng-maxlength="255"
+                   ng-pattern="/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/"
+            />
+            <p ng-show="contactForm.emailAddress.$touched && contactForm.emailAddress.$invalid" class="help-block">Missing or Invalid Email Address.</p>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-offset-3 col-sm-7">
+            <input type="submit" class="btn btn-primary" value="Save" ng-disabled="contactForm.$invalid"/>
+            <a class="btn btn-primary" ui-sref="contacts">Cancel</a>
+        </div>
+    </div>
+</div>

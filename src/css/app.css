@@ -1,0 +1,57 @@
+/* app css stylesheet */
+
+.menu {
+  list-style: none;
+  border-bottom: 0.1em solid black;
+  margin-bottom: 2em;
+  padding: 0 0 0.5em;
+}
+
+.menu:before {
+  content: "[";
+}
+
+.menu:after {
+  content: "]";
+}
+
+.menu > li {
+  display: inline;
+}
+
+.menu > li:before {
+  content: "|";
+  padding-right: 0.3em;
+}
+
+.menu > li:nth-child(1):before {
+  content: "";
+  padding: 0;
+}
+
+.filterStyle {
+  width:100% !important;
+  height: 24px !important;
+  font-size: 11px !important;
+  font-weight: normal !important;
+  cursor: pointer;
+}
+
+.filterStyleDate {
+  width:170px !important;
+  height: 24px !important;
+  font-size: 11px !important;
+  font-weight: normal !important;
+  cursor: pointer !important;
+  display: inline !important;
+}
+
+.filterStyleDateLabel {
+  font-size: 11px !important;
+  font-weight: normal !important;
+  display: inline !important;
+}
+
+.filterCheckbox {
+  cursor: pointer !important;
+}

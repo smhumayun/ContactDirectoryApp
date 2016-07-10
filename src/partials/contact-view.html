@@ -1,0 +1,27 @@
+<div class="col-sm-10 col-sm-offset-1">
+    <div class="text-center"><h3>View Contact</h3></div>
+    <table class="table table-responsive table-bordered table-hover">
+        <tr>
+            <td class="col-sm-2 bg-info">ID</td>
+            <td class="col-sm-4">{{contact.id}}</td>
+            <td class="col-sm-2 bg-info">Name</td>
+            <td class="col-sm-4">{{contact.name}}</td>
+        </tr>
+        <tr>
+            <td class="bg-info">Primary Number</td>
+            <td>{{contact.primaryNumber}}</td>
+            <td class="bg-info">Secondary Number</td>
+            <td>{{contact.secondaryNumber}}</td>
+        </tr>
+        <tr>
+            <td class="bg-info">Email Address</td>
+            <td>{{contact.emailAddress}}</td>
+            <td class="bg-info">Updated On</td>
+            <td>{{contact.updatedOn | date:'MM/dd/yyyy HH:mm a'}}</td>
+        </tr>
+    </table>
+    <div>
+        <a class="btn btn-primary" ui-sref="editContact({id:contact.id})">Edit</a>
+        <a class="btn btn-primary" ui-sref="contacts">Back</a>
+    </div>
+</div>

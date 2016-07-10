@@ -1,0 +1,146 @@
+<a ui-sref="newContact" class="btn-primary btn-sm nodecoration pull-right">Add New Contact</a>
+<br/><br/>
+<h3 style="display: inline;">Contact(s)</h3>
+<br/>
+<small class="pull-left">
+    Showing contacts from {{pagingInfo.from}} to {{pagingInfo.to}} of total {{pagingInfo.totalElements}} contacts.
+</small>
+<small class="pull-right">
+    Show
+    <select
+            ng-options="pageOption.value for pageOption in pageSizeOptions track by pageOption.key"
+            ng-model="selectedPageSizeOption"
+            ng-change="onPageSizeChange()"></select>
+    contacts per page.
+    <button ng-click="firstPage()" class="btn btn-xs btn-default" ng-disabled="pagingInfo.first" title="Jump to First Page">
+        <span class="glyphicon glyphicon-fast-backward"></span></button>
+    <button ng-click="previousPage()" class="btn btn-xs btn-default" ng-disabled="pagingInfo.first" title="Jump to Previous Page">
+        <span class="glyphicon glyphicon-backward"></span></button>
+    <select
+            ng-options="pageNumberOption as pageNumberOption for pageNumberOption in pageNumberOptions"
+            ng-model="selectedPageNumberOption"
+            ng-disabled="pagingInfo.totalPages <= 1"
+            ng-change="fetch()"
+            title="Jump to Page"></select>
+    <button ng-click="nextPage()" class="btn btn-xs btn-default" ng-disabled="pagingInfo.last" title="Jump to Next Page">
+        <span class="glyphicon glyphicon-forward"></span></button>
+    <button ng-click="lastPage()" class="btn btn-xs btn-default" ng-disabled="pagingInfo.last" title="Jump to Last Page">
+        <span class="glyphicon glyphicon-fast-forward"></span></button>
+    <button class="btn btn-xs btn-info" ng-click="toggleFilters()">
+        <span class="control-label glyphicon glyphicon-filter"></span>
+        <span class="control-label" ng-show="showFilters">Hide</span>
+        <span class="control-label" ng-show="!showFilters">Show</span>
+        Filters
+    </button>
+</small>
+<form class="form-horizontal" role="form" name="filterForm" novalidate>
+<table class="table table-responsive table-striped table-bordered table-hover">
+    <thead>
+        <th class="text-center" width="80">ID
+            <small ng-switch on="sortBy" ng-click="sort('id')" style="cursor: pointer">
+                <span ng-switch-when="id,asc" title="Sort by ID in Descending order" class="glyphicon glyphicon-sort-by-attributes"></span>
+                <span ng-switch-when="id,desc" title="Sort by ID in Ascending order" class="glyphicon glyphicon-sort-by-attributes-alt"></span>
+                <span ng-switch-default title="Sort by ID in Ascending order" class="glyphicon glyphicon-sort"></span>
+            </small>
+        </th>
+        <th class="text-center" width="300">
+            Name
+            <small ng-switch on="sortBy" ng-click="sort('name')" style="cursor: pointer">
+                <span ng-switch-when="name,asc" title="Sort by Name in Descending order" class="glyphicon glyphicon-sort-by-attributes"></span>
+                <span ng-switch-when="name,desc" title="Sort by Name in Ascending order" class="glyphicon glyphicon-sort-by-attributes-alt"></span>
+                <span ng-switch-default title="Sort by Name in Ascending order" class="glyphicon glyphicon-sort"></span>
+            </small>
+        </th>
+        <th class="text-center" width="200">
+            Primary Number
+            <small ng-switch on="sortBy" ng-click="sort('primaryNumber')" style="cursor: pointer">
+                <span ng-switch-when="primaryNumber,asc" title="Sort by Primary Number in Descending order" class="glyphicon glyphicon-sort-by-attributes"></span>
+                <span ng-switch-when="primaryNumber,desc" title="Sort by Primary Number in Ascending order" class="glyphicon glyphicon-sort-by-attributes-alt"></span>
+                <span ng-switch-default title="Sort by Primary Number in Ascending order" class="glyphicon glyphicon-sort"></span>
+            </small>
+        </th>
+        <th class="text-center" width="200">
+            Secondry Number
+            <small ng-switch on="sortBy" ng-click="sort('secondaryNumber')" style="cursor: pointer">
+                <span ng-switch-when="secondaryNumber,asc" title="Sort by Secondary Number in Descending order" class="glyphicon glyphicon-sort-by-attributes"></span>
+                <span ng-switch-when="secondaryNumber,desc" title="Sort by Secondary Number in Ascending order" class="glyphicon glyphicon-sort-by-attributes-alt"></span>
+                <span ng-switch-default title="Sort by Secondary Number in Ascending order" class="glyphicon glyphicon-sort"></span>
+            </small>
+        </th>
+        <th class="text-center" width="300">
+            Email Address
+            <small ng-switch on="sortBy" ng-click="sort('emailAddress')" style="cursor: pointer">
+                <span ng-switch-when="emailAddress,asc" title="Sort by Email Address in Descending order" class="glyphicon glyphicon-sort-by-attributes"></span>
+                <span ng-switch-when="emailAddress,desc" title="Sort by Email Address in Ascending order" class="glyphicon glyphicon-sort-by-attributes-alt"></span>
+                <span ng-switch-default title="Sort by Email Address in Ascending order" class="glyphicon glyphicon-sort"></span>
+            </small>
+        </th>
+        <th class="text-center" width="240">
+            Updated On
+            <small ng-switch on="sortBy" ng-click="sort('updatedOn')" style="cursor: pointer">
+                <span ng-switch-when="updatedOn,asc" title="Sort by Updated On in Descending order" class="glyphicon glyphicon-sort-by-attributes"></span>
+                <span ng-switch-when="updatedOn,desc" title="Sort by Updated On in Ascending order" class="glyphicon glyphicon-sort-by-attributes-alt"></span>
+                <span ng-switch-default title="Sort by Updated On in Ascending order" class="glyphicon glyphicon-sort"></span>
+            </small>
+        </th>
+        <th>
+        </th>
+    </thead>
+    <thead ng-show="filterInfo.showFilters" class="bg-info">
+        <th class="text-center" style="vertical-align: middle">
+            <div ng-class="{'has-error':filterForm.filterId.$invalid}">
+                <input type="text" ng-model="filterInfo.filterId" name="filterId" id="filterId" title="Filter by ID"
+                       class="form-control input-sm filterStyle" ng-pattern="/^\d+$/" ng-keypress="applyFiltersOnEnter($event, filterForm.$valid)">
+            </div>
+        </th>
+        <th class="text-center" style="vertical-align: middle">
+            <input type="text" ng-model="filterInfo.filterName" name="filterName" id="filterName"
+                   class="form-control input-sm filterStyle" title="Filter by Name" ng-keypress="applyFiltersOnEnter($event, filterForm.$valid)">
+        </th>
+        <th class="text-center" style="vertical-align: middle">
+            <div ng-class="{'has-error':filterForm.filterPrimaryNumber.$invalid}">
+                <input type="text" ng-model="filterInfo.filterPrimaryNumber" name="filterPrimaryNumber" id="filterPrimaryNumber"
+                       class="form-control input-sm filterStyle" title="Filter by Primary Number" ng-pattern="/^[0-9.]*$/"
+                       ng-keypress="applyFiltersOnEnter($event, filterForm.$valid)">
+            </div>
+        </th>
+        <th class="text-center" style="vertical-align: middle">
+            <input type="text" ng-model="filterInfo.filterSecondaryNumber" name="filterSecondaryNumber" id="filterSecondaryNumber"
+                   class="form-control input-sm filterStyle" title="Filter by Secondary Number"
+                   ng-keypress="applyFiltersOnEnter($event, filterForm.$valid)">
+        </th>
+        <th class="text-center" style="vertical-align: middle">
+            <input type="text" ng-model="filterInfo.filterEmailAddress" name="filterEmailAddress" id="filterEmailAddress"
+                   class="form-control input-sm filterStyle" title="Filter by Email Address"
+                   ng-keypress="applyFiltersOnEnter($event, filterForm.$valid)">
+        </th>
+        <th class="text-center" style="vertical-align: middle">
+            <div class="filterStyleDateLabel" ng-class="{'has-error':filterForm.filterUpdatedOnStart.$invalid}">
+                From:
+                <input type="datetime-local" ng-model="filterInfo.filterUpdatedOnStart" name="filterUpdatedOnStart" id="filterUpdatedOnStart"
+                       class="form-control filterStyleDate" title="Filter by Updated On - Start"
+                       ng-keypress="applyFiltersOnEnter($event, filterForm.$valid)">
+                <br/>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To:
+                <input type="datetime-local" ng-model="filterInfo.filterUpdatedOnEnd" name="filterUpdatedOnEnd" id="filterUpdatedOnEnd"
+                       class="form-control filterStyleDate" title="Filter by Updated On - End"
+                       ng-keypress="applyFiltersOnEnter($event, filterForm.$valid)">
+            </div>
+        </th>
+        <th></th>
+    </thead>
+    <tr ng-repeat="contact in contacts">
+        <td class="text-center">{{contact.id}}</td>
+        <td>{{contact.name}}</td>
+        <td>{{contact.primaryNumber}}</td>
+        <td>{{contact.secondaryNumber}}</td>
+        <td>{{contact.emailAddress}}</td>
+        <td class="text-center">{{contact.updatedOn | date:'MM/dd/yyyy HH:mm a'}}</td>
+        <td class="text-center">
+            <a class="btn-sm btn-primary" ui-sref="viewContact({id:contact.id})">View</a>
+            <a class="btn-sm btn-primary" ui-sref="editContact({id:contact.id})">Edit</a>
+            <a class="btn-sm btn-danger" style="cursor: pointer;"  ng-click="deleteContact(contact)">Delete</a>
+        </td>
+    </tr>
+</table>
+</form>

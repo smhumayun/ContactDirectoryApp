@@ -1,0 +1,27 @@
+{
+  "name": "contact-directory-webapp",
+  "version": "1.0.0",
+  "description": "Contact Directory Web Application",
+  "author": "Syed Muhammad Humayun - smhumayun@gmail.com",
+  "devDependencies": {
+    "browser-sync": "^2.12.8",
+    "browserify": "^13.0.1",
+    "del": "^2.2.0",
+    "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.0",
+    "gulp-environments": "^0.1.1",
+    "gulp-if": "^2.0.1",
+    "gulp-jshint": "^2.0.1",
+    "gulp-minify-css": "^1.2.4",
+    "gulp-rename": "^1.2.2",
+    "gulp-uglify": "^1.5.3",
+    "jshint": "^2.9.2",
+    "jshint-stylish": "^2.2.0",
+    "vinyl-source-stream": "^1.1.0"
+  },
+  "dependencies": {
+    "angular": "^1.5.5",
+    "angular-resource": "^1.5.5",
+    "angular-ui-router": "^0.3.0"
+  }
+}
